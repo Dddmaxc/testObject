@@ -6,13 +6,12 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [react()],
-  base: "/prihod/", 
+  base: command === "build" ? "/prihod/" : "/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
     },
   },
-});
-
+}));
