@@ -8,7 +8,6 @@ import { Error404 } from "@/components/errors/Error404";
 import { App } from "@/App";
 
 export const PATH = {
-  ROOT: "/",
   PRIHOD: "/prihod",
   GROUPS: "/group",
   PRODUCTS: "/products",
@@ -19,10 +18,9 @@ export const PATH = {
 
 export const publicRoutes = [
   {
-    path: PATH.ROOT,
     element: <App />,
     children: [
-      { index: true, element: <Navigate to={PATH.PRIHOD} replace /> },
+      { path: "/", element: <Navigate to={PATH.PRIHOD} replace /> },
       { path: PATH.PRIHOD, element: <Prihod /> },
       { path: PATH.GROUPS, element: <Groups /> },
       { path: PATH.PRODUCTS, element: <Products /> },
