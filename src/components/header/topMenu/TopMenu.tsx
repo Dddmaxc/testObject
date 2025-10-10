@@ -39,7 +39,7 @@ export const TopMenu = memo(() => {
           gap: "20px",
           background: "#ededed",
           border: "solid 1px #000",
-          padding: "10px",
+          padding: "9px",
         }}
       >
         <span style={{ fontSize: "15px" }}>
