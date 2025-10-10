@@ -13,7 +13,7 @@ const AppRouter = () => useRoutes(publicRoutes);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/testObject">
       <Provider store={store}>
         <AppRouter />
       </Provider>
