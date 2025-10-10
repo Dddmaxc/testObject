@@ -6,9 +6,10 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// vite.config.js
 export default defineConfig({
   plugins: [react()],
-  base: "/testObject/", 
+  // Убери строку base
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
