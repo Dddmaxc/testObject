@@ -11,7 +11,7 @@
     "deploy:firebase": "firebase deploy",
     "build": "tsc && vite build",
     "lint": "eslint .",
-    "preview": "vite preview", 
+    "preview": "vite preview",
     "firebase": "firebase",
     "serve": "firebase serve",
     "fb:login": "firebase login",
