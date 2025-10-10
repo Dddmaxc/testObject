@@ -1,0 +1,19 @@
+html,
+body {
+  overflow: hidden !important;
+  height: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Убираем фон и дефолтные стили body */
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #fff;
+  font-family: sans-serif;
+}

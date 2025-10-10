@@ -1,0 +1,151 @@
+.app {
+  display: flex;
+  flex-direction: column;
+}
+
+.app__body {
+  display: flex;
+  flex-direction: row;
+}
+
+.app__nav {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 50px;
+  justify-content: start;
+  margin-top: 80px;
+  gap: 20px;
+  width: 12%;
+  height: 100vh;
+  background: #fff;
+  font-size: 20px;
+  box-shadow: 1px 1px 18px #888888;
+  text-align: center;
+  z-index: 2;
+}
+
+.app__link {
+  color: #333;
+  text-decoration: none;
+  padding: 8px 0;
+  display: block;
+  transition: color 0.2s ease;
+}
+
+.app__link:hover {
+  color: #0db561;
+}
+
+.app__link--active {
+  font-weight: bold;
+  color: #0db561;
+  border-bottom: 3px solid #0db561;
+  padding-left: 7px;
+}
+
+.app__user-container {
+  position: relative;
+  display: inline-block;
+}
+
+.app__user {
+  border-radius: 50%;
+  width: 130px;
+  height: 130px;
+  margin-bottom: 20px;
+  object-fit: cover;
+}
+
+.app__settings {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 80px;
+  right: -1px;
+  cursor: pointer;
+  object-fit: cover;
+  border-radius: 50%;
+  background: white;
+  padding: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.app__settings:hover {
+  transform: rotate(-90deg);
+}
+
+.app__content {
+  padding: 20px;
+  margin-top: 4.5%;
+  background: #ffffff;
+  width: 100%;
+  min-height: 400px;
+  font-size: 30px;
+}
+
+@media (max-width: 1024px) {
+  .app__nav {
+    width: 25%;
+    font-size: 18px;
+  }
+
+  .app__user {
+    width: 100px;
+    height: 100px;
+  }
+
+  .app__settings {
+    width: 35px;
+    height: 35px;
+    top: -8px;
+    right: -8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app__body {
+    flex-direction: column;
+  }
+
+  .app__nav {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    justify-content: center;
+    box-shadow: none;
+    border-bottom: 1px solid #ccc;
+    margin-top: 0;
+    padding-top: 10px;
+  }
+
+  .app__user-container {
+    margin-right: 15px;
+  }
+
+  .app__user {
+    width: 50px;
+    height: 50px;
+    margin: 0;
+  }
+
+  .app__settings {
+    width: 25px;
+    height: 25px;
+    top: -5px;
+    right: -5px;
+    padding: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app__settings {
+    width: 20px;
+    height: 20px;
+    top: -3px;
+    right: -3px;
+  }
+}

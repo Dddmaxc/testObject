@@ -1,0 +1,21 @@
+html,
+body {
+  overflow: hidden !important;
+  height: 100%;
+}
+._app__content_wfltt_157 {
+  background: #f8f9fa;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  background: #000;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}

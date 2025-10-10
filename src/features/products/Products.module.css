@@ -1,0 +1,240 @@
+
+.formLabel {
+  font-size: 12px;
+  color: #6c757d;
+  margin: 0 !important;
+}
+
+.productsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 80px 20px 0 0;
+  background: #f8f9fa;
+  border-radius: 12px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.productCard {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  gap: 15px;
+  min-height: 90px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.productCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.statusIndicator {
+  flex-shrink: 0;
+}
+
+.statusDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.productRow {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e9ecef;
+  gap: 20px;
+  min-height: 80px;
+}
+
+.productRow:last-child {
+  border-bottom: none;
+}
+
+.productRow:hover {
+  background-color: #f8f9fa;
+}
+
+.statusIndicator {
+  flex-shrink: 0;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.statusDot.available {
+  background-color: #03a366;
+}
+
+.statusDot.notAvailable {
+  background-color: #2a2a2a;
+}
+
+.statusDot.repair {
+  background-color: #6c757d;
+}
+
+.productImage {
+  flex-shrink: 0;
+}
+
+.productImage img {
+  border-radius: 4px;
+}
+
+.productInfo {
+  flex: 1;
+  max-width: 100px;
+}
+
+.productTitle {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.productSerial {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.productStatus {
+  flex-shrink: 0;
+  min-width: 80px;
+}
+
+.statusText {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.statusText.available {
+  color: #28a745;
+}
+.statusText.notAvailable {
+  color: #2a2a2a;
+}
+
+.statusText.repair {
+  color: #6c757d;
+}
+
+.dateRange {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  min-width: 100px;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.condition {
+  flex-shrink: 0;
+  min-width: 60px;
+}
+
+.condition .new {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.price {
+  flex-shrink: 0;
+  min-width: 120px;
+  text-align: right;
+}
+
+.priceUsd {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.priceUah {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.groupName {
+  flex: 1;
+  min-width: 200px;
+  font-size: 13px;
+  color: #6c757d;
+  text-decoration: underline;
+}
+.name {
+  flex: 1;
+  max-width: 150px;
+  font-size: 13px;
+  color: #6c757d;
+  text-decoration: underline;
+}
+.probel {
+  flex: 1;
+  max-width: 150px;
+  font-size: 20px;
+  color: #6c757d;
+}
+
+.responsiblePerson {
+  flex-shrink: 0;
+  min-width: 120px;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.arrivalInfo {
+  flex: 1;
+  min-width: 150px;
+}
+
+.arrivalInfo > div:first-child {
+  font-size: 12px;
+  color: #6c757d;
+  margin-bottom: 4px;
+}
+
+.arrivalDate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px;
+}
+
+.deleteBtn:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .productsContainer {
+    max-height: 400px;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .productCard {
+    padding: 12px 15px;
+    gap: 12px;
+    min-height: 80px;
+  }
+}
