@@ -1,11 +1,11 @@
 import { Navigate } from "react-router-dom";
-import { Prihod } from "@/components/navigateMenu/navigateMenuPages/Prihod";
 import { Groups } from "@/components/navigateMenu/navigateMenuPages/Groups";
 import { Products } from "@/features/products/Products";
 import { Users } from "@/components/navigateMenu/navigateMenuPages/Users";
 import { Settings } from "@/components/navigateMenu/navigateMenuPages/Settings";
 import { Error404 } from "@/components/errors/Error404";
 import { App } from "@/App";
+import { Orders } from "@/features/orders/Orders";
 
 export const PATH = {
   PRIHOD: "/prihod",
@@ -21,7 +21,7 @@ export const publicRoutes = [
     element: <App />,
     children: [
       { path: "/", element: <Navigate to={PATH.PRIHOD} replace /> },
-      { path: PATH.PRIHOD, element: <Prihod /> },
+      { path: PATH.PRIHOD, element: <Orders /> },
       { path: PATH.GROUPS, element: <Groups /> },
       { path: PATH.PRODUCTS, element: <Products /> },
       { path: PATH.USERS, element: <Users /> },

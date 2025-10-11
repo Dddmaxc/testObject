@@ -31,7 +31,7 @@ export type Product = {
   specification: string;
   guarantee: Guarantee;
   price: Price[];
-  order: number;
+  order: string;
   date: string;
   quantity?: 1;
   name?: string

@@ -21,18 +21,19 @@ export const Products = () => {
   const error = useAppSelector(selectError);
   const [filterProducts, setFilterProducts] = useState<string>("");
 
+  console.log("products", products);
+
   useEffect(() => {
     dispatch(fetchProductsTC());
-  }, [dispatch]);
+  }, []);
 
   const filteredProducts = filterProducts
-  ? products.filter((p) => p.type === filterProducts)
-  : products;
-
+    ? products.filter((p) => p.type === filterProducts)
+    : products;
 
   const filterFunction = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterProducts(e.currentTarget.value)
-  }
+    setFilterProducts(e.currentTarget.value);
+  };
 
   if (status === "loading") return <div>Loading products...</div>;
   if (status === "failed") return <div>Error: {error}</div>;
@@ -47,7 +48,7 @@ export const Products = () => {
     specification: "Specs here",
     guarantee: { start: "2025-01-01", end: "2026-01-01" },
     price: [{ value: 100, symbol: "USD", isDefault: 1 as 1 }],
-    order: 4,
+    order: "4",
     date: new Date().toISOString(),
     name: "Кто то хз кто но кто то ",
     status: true,
@@ -88,7 +89,7 @@ export const Products = () => {
         </div>
       </div>
 
-      <ProductCards filteredProducts={filteredProducts}/>
+      <ProductCards filteredProducts={filteredProducts} />
 
       <button onClick={addProduct} className="btn btn-primary mt-3">
         add
@@ -96,5 +97,3 @@ export const Products = () => {
     </div>
   );
 };
-
-
