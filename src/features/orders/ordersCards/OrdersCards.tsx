@@ -4,27 +4,27 @@ import {
   selectProductsByOrderId,
   useAppSelector,
 } from "@/components/hooks/useAppSelector";
-import { deleteOrderTC, selectOrders } from "../ordersSlice";
+import { selectOrders } from "../ordersSlice";
 import { CgMenuRound } from "react-icons/cg";
-import {
-  fetchProductsTC,
-  selectProducts,
-} from "@/features/products/productsSlice";
-import { useEffect } from "react";
+import { fetchProductsTC } from "@/features/products/productsSlice";
+import { useEffect, useState } from "react";
+import { MyVerticallyCenteredModal } from "../deleteModal/DeleteModal";
 
 export const OrdersCards = () => {
   const orders = useAppSelector(selectOrders);
-  const products = useAppSelector(selectProducts);
   const productsByOrderId = useAppSelector(selectProductsByOrderId);
   const dispatch = useAppDispatch();
+
+  const [modalDelete, setModalDelete] = useState<boolean>(false);
+  const [openProduct, setOpenProduct] = useState<boolean>(false);
+
+  console.log(openProduct);
 
   useEffect(() => {
     dispatch(fetchProductsTC());
   }, [dispatch]);
 
-  const deleteOrder = (orderId: string) => {
-    dispatch(deleteOrderTC(orderId));
-  };
+  const toggleOpenProduct = () => setOpenProduct((prev) => !prev);
 
   return (
     <div className={styles.orderContainer}>
@@ -33,53 +33,74 @@ export const OrdersCards = () => {
         const orderDate = new Date(order.date);
 
         return (
-          <div key={order.id} className={styles.orderCard}>
-            <div className={styles.orderCard__info}>
+          !openProduct && (
+            <div key={order.id} className={styles.orderCard}>
               <div className={styles.orderCard__title}>{order.title}</div>
-            </div>
 
-            <div className={styles.orderCard__products}>
-              <CgMenuRound size={50} color="#6c757d" />
-              <div className={styles.orderCard__count}>
-                {orderProducts.length}
-                <div className={styles.orderCard__label}>Продукта</div>
+              <div className={styles.orderCard__products}>
+                <CgMenuRound
+                  size={60}
+                  color="#6c757d"
+                  onClick={toggleOpenProduct}
+                />
+                <div className={styles.orderCard__count}>
+                  <span style={{ fontWeight: "bolder", color: "#505050" }}>
+                    {orderProducts.length}
+                  </span>
+                  <div className={styles.orderCard__label}>Продукта</div>
+                </div>
+              </div>
+
+              <div className={styles.orderCard__dateContainer}>
+                <div className={styles.orderCard__dayMonth}>
+                  <span className={styles.orderCard__day}>
+                    {orderDate.getDate().toString().padStart(2, "0")}
+                  </span>
+                  <span className={styles.orderCard__separator}>/</span>
+                  <span className={styles.orderCard__month}>
+                    {orderDate.getMonth() + 1}
+                  </span>
+                </div>
+                <div className={styles.orderCard__fullDate}>
+                  <span className={styles.orderCard__yearDay}>
+                    {orderDate.getDate().toString().padStart(2, "0")}
+                  </span>
+                  <span className={styles.orderCard__separator}>/</span>
+                  <span className={styles.orderCard__monthName}>
+                    {orderDate.toLocaleDateString("ru-RU", { month: "short" })}
+                  </span>
+                  <span className={styles.orderCard__separator}>/</span>
+                  <span className={styles.orderCard__year}>
+                    {orderDate.getFullYear()}
+                  </span>
+                </div>
+              </div>
+
+              <div className={styles.orderCard__price}>
+                <div style={{ fontSize: "12px", color: "#6c757d" }}>100$</div>
+                <div>2000UAH</div>
+              </div>
+
+              <div className={styles.orderCard__actions}>
+                <button
+                  className={styles.orderCard__deleteBtn}
+                  onClick={(e) => {
+                    e.stopPropagation(); // чтобы не срабатывало toggleOpenProduct
+                    setModalDelete(true);
+                  }}
+                >
+                  🗑️
+                </button>
+
+                <MyVerticallyCenteredModal
+                  show={modalDelete}
+                  onHide={() => setModalDelete(false)}
+                  orderModelId={order.id}
+                  orderTitle={order.title}
+                />
               </div>
             </div>
-
-            <div className={styles.orderCard__dateContainer}>
-              <div className={styles.orderCard__dayMonth}>
-                <span className={styles.orderCard__day}>
-                  {orderDate.getDate().toString().padStart(2, "0")}
-                </span>
-                <span className={styles.orderCard__separator}>/</span>
-                <span className={styles.orderCard__month}>
-                  {orderDate.getMonth() + 1}
-                </span>
-              </div>
-              <div className={styles.orderCard__fullDate}>
-                <span className={styles.orderCard__yearDay}>
-                  {orderDate.getDate().toString().padStart(2, "0")}
-                </span>
-                <span className={styles.orderCard__separator}>/</span>
-                <span className={styles.orderCard__monthName}>
-                  {orderDate.toLocaleDateString("ru-RU", { month: "short" })}
-                </span>
-                <span className={styles.orderCard__separator}>/</span>
-                <span className={styles.orderCard__year}>
-                  {orderDate.getFullYear()}
-                </span>
-              </div>
-            </div>
-
-            <div className={styles.orderCard__actions}>
-              <button
-                className={styles.orderCard__deleteBtn}
-                onClick={() => deleteOrder(order.id)}
-              >
-                🗑️
-              </button>
-            </div>
-          </div>
+          )
         );
       })}
     </div>

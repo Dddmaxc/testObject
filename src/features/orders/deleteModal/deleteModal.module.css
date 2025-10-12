@@ -1,0 +1,31 @@
+.backdrop {
+  position: fixed;
+  top: 8.4%;
+  left: 10.6%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2); 
+  z-index: 1040;
+}
+.contained__modal_btn_cancel {
+  background: #0db561 !important;
+  border: none !important;
+}
+.contained__modal_btn_cancel:hover {
+  background: #0db561 !important;
+  border: none !important;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px !important;
+}
+
+.contained__modal_btn_delete {
+  color: #930202ff !important;
+  background: #fff !important;
+  border: none !important;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px !important;
+  transition: transform 0.2s ease-in-out !important;
+}
+.contained__modal_btn_delete:hover {
+  background: #fff !important;
+  color: #930202ff !important;
+  transform: scale(1.1) !important;
+}

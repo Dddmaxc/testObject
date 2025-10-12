@@ -6,8 +6,9 @@ import {
   addDoc,
   deleteDoc,
   doc,
+  Timestamp,
 } from "firebase/firestore";
-import { Product } from "../products/productsSlice";
+import { convertFirebaseData, Product } from "../products/productsSlice";
 import { fetchProductsByOrderId } from "@/services/products";
 
 export type Status = "idle" | "loading" | "succeeded" | "failed";
@@ -32,51 +33,59 @@ const initialState: OrderState = {
   error: null,
 };
 
+
 export const ordersSlice = createAppSlice({
   name: "orders",
   initialState,
   reducers: (create) => ({
- fetchOrdersTC: create.asyncThunk<Order[], void>(
-  async (_arg, thunkAPI) => {
-    try {
-      const snapshot = await getDocs(collection(db, "orders"));
-      const orders = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...(doc.data() as Omit<Order, "id">),
-      })) as Order[];
+    fetchOrdersTC: create.asyncThunk<Order[], void>(
+      async (_arg, thunkAPI) => {
+        try {
+          const snapshot = await getDocs(collection(db, "orders"));
 
-      // Не забудь загружаем продукты по каждому заказу
-      const ordersWithProducts: Order[] = await Promise.all(
-        orders.map(async (order) => {
-          const products = await fetchProductsByOrderId(order.id);
-          return {
-            ...order,
-            products,
-          };
-        })
-      );
+          const orders = snapshot.docs.map((doc) => {
+            const rawData = doc.data();
+            const convertedData = convertFirebaseData(rawData);
 
-      return ordersWithProducts;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(
-        error.message ?? "Failed to fetch orders"
-      );
-    }
-  },
-  {
-    fulfilled: (state, action) => {
-      state.orders = action.payload;
-    },
-    pending: (state) => {
-      state.error = null;
-      state.status = "loading";
-    },
-    rejected: (state, action) => {
-      state.status = "failed";
-      state.error = action.payload as string;
-    },
-  }
-),
+            return {
+              id: doc.id,
+              ...convertedData,
+            } as Order;
+          });
+
+          const ordersWithProducts: Order[] = await Promise.all(
+            orders.map(async (order) => {
+              const products = await fetchProductsByOrderId(order.id);
+              return {
+                ...order,
+                products: convertFirebaseData(products),
+              };
+            })
+          );
+
+          return ordersWithProducts;
+        } catch (error: any) {
+          return thunkAPI.rejectWithValue(
+            error.message ?? "Failed to fetch orders"
+          );
+        }
+      },
+      {
+        fulfilled: (state, action) => {
+          state.orders = action.payload;
+          state.status = "succeeded";
+        },
+        pending: (state) => {
+          state.error = null;
+          state.status = "loading";
+        },
+        rejected: (state, action) => {
+          state.status = "failed";
+          state.error = action.payload as string;
+        },
+      }
+    ),
+
     deleteOrderTC: create.asyncThunk<string, string>(
       async (orderId, thunkAPI) => {
         try {
@@ -99,11 +108,16 @@ export const ordersSlice = createAppSlice({
         },
       }
     ),
+
     addOrderTC: create.asyncThunk<Order, Omit<Order, "id">>(
       async (order, thunkAPI) => {
         try {
           const docRef = await addDoc(collection(db, "orders"), order);
-          return { id: docRef.id, ...order };
+
+          return {
+            id: docRef.id,
+            ...order,
+          };
         } catch (error: any) {
           return thunkAPI.rejectWithValue(
             error.message ?? "Failed to add order"

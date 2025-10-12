@@ -51,22 +51,18 @@ const initialState: ProductsState = {
 };
 
 // Рекурсивная функция для преобразования всех Timestamp в документе
-const convertFirebaseData = (data: any): any => {
+export const convertFirebaseData = (data: any): any => {
   if (data === null || data === undefined) {
     return data;
   }
-
-  // Если это Timestamp - преобразуем в строку
   if (data instanceof Timestamp) {
     return data.toDate().toISOString();
   }
 
-  // Если это массив - обрабатываем каждый элемент
   if (Array.isArray(data)) {
     return data.map((item) => convertFirebaseData(item));
   }
 
-  // Если это объект (но не Timestamp) - рекурсивно обрабатываем все поля
   if (typeof data === "object") {
     const converted: any = {};
     for (const key in data) {
@@ -77,7 +73,6 @@ const convertFirebaseData = (data: any): any => {
     return converted;
   }
 
-  // Для примитивных типов возвращаем как есть
   return data;
 };
 

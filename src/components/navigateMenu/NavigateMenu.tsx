@@ -53,7 +53,7 @@ export const NavigateMenu = () => {
           transition={{ duration: .5, ease: "easeInOut" }}
         >
           <Outlet />
-        </motion.div>
+        </motion.div> 
       </main>
     </div>
   );
