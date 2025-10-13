@@ -3,28 +3,87 @@
   flex-direction: column;
   margin-top: 65px;
   gap: 20px;
-  padding: 10px 20px 0 0;
+  padding: 10px 20px 10px 0;
   background: #f8f9fa;
   border-radius: 12px;
   max-height: 450px;
   overflow-y: auto;
+
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
 }
 
 .orderCard {
   display: grid;
-  grid-template-columns: 2fr 1fr 2fr 1fr auto;
+  grid-template-columns: 4fr 2fr 2fr 2fr auto;
   align-items: center;
   padding: 15px 20px;
-  gap: 20px;
+  gap: 50px;
   border-radius: 8px;
   border: 1px solid #e9ecef;
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   cursor: pointer;
+  transition: all 500ms ease-in-out;
+  width: 100%;
+}
+
+.collapse {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.214);
+  cursor: pointer;
+  transition: all 500ms ease-in-out;
+  width: 30%;
+  margin: left auto;
+  align-items: stretch;
+}
+
+.collapse:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.774);
+}
+
+.collapse .orderCard__title,
+.collapse .orderCard__price,
+.collapse .orderCard__actions {
+  display: none;
+}
+
+.collapse .orderCard__products {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+.orderCard__padding {
+  padding: 23px 0px;
+}
+
+.orderCard__arrow {
+  display: flex;
+  align-items: center;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 30px 0px;
+  background: #6c757d;
+  transition: ease-in-out;
+}
+
+.IoIosArrowForward:hover {
+  transform: scale(1.2);
+}
+
+.orderCard .orderCard__arrow {
+  display: none;
 }
 
 .orderCard:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.774);
 }
 
 .orderCard__title {
@@ -63,6 +122,7 @@
   align-items: center;
   font-family: "Arial", sans-serif;
   color: #6c757d;
+  justify-content: center;
 }
 
 .orderCard__dayMonth,
@@ -141,6 +201,12 @@
     gap: 12px;
   }
 
+  .collapse {
+    width: 60%; /* На мобильных делаем чуть шире */
+    padding: 15px;
+    gap: 12px;
+  }
+
   .orderCard__title,
   .orderCard__products,
   .orderCard__dateContainer,
@@ -163,31 +229,4 @@
   .orderCard__actions {
     justify-content: flex-end;
   }
-}
-.block {
-  width: 200px;
-  height: 100px;
-  background: #000;
-  margin: 15px;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transform-origin: right center; /* сжимать справа налево */
-  transform: scaleX(0.5); /* начальное состояние */
-  transition: transform 500ms ease-in-out;
-}
-
-.blockColapps {
-  width: 200px;
-  height: 100px;
-  background: #000;
-  margin: 15px;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: scaleX(1); /* уменьшение до 100px ширины */
-  background: #c4f131;
 }

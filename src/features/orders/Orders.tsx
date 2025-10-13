@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { addOrderTC, fetchOrdersTC, Order, selectOrders } from "./ordersSlice";
 import { useAppSelector } from "@/components/hooks/useAppSelector";
 import { Col, Row } from "react-bootstrap";
@@ -11,7 +11,6 @@ import styles from "./orders.module.css";
 export const Orders = () => {
   const orders = useAppSelector(selectOrders);
   const dispatch = useAppDispatch();
-  const [sw, setSw] = useState(false);
 
   useEffect(() => {
     dispatch(fetchOrdersTC());
@@ -35,12 +34,6 @@ export const Orders = () => {
       className="container-fluid py-4"
       style={{ background: "#f8f9fa", marginTop: "50px" }}
     >
-      <div
-        onClick={() => setSw(!sw)}
-        className={sw ? styles.blockColapps : styles.block}
-      >
-        sd
-      </div>
       <div className="d-flex" style={{ gap: "10px" }}>
         <div
           style={{
