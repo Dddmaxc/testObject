@@ -22,7 +22,7 @@ export type Price = {
 };
 
 export type Product = {
-  id: string;
+  id: string; 
   serialNumber: number;
   isNew: 1 | 0;
   photo: string;

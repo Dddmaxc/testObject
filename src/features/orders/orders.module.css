@@ -3,14 +3,31 @@
   flex-direction: column;
   margin-top: 65px;
   gap: 20px;
-  padding: 10px 20px 10px 0;
+  padding: 10px 35px 10px 0;
   background: #f8f9fa;
   border-radius: 12px;
   max-height: 450px;
   overflow-y: auto;
+  width: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  transition: 600ms ease-in-out;
+}
 
-  scrollbar-width: none; 
-  -ms-overflow-style: none; 
+.orderContainerCollapse {
+  display: flex;
+  flex-direction: column;
+  margin-top: 65px;
+  gap: 20px;
+  padding: 10px 35px 10px 0;
+  background: #f8f9fa;
+  border-radius: 12px;
+  max-height: 450px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  width: 30%;
+
 }
 
 .orderCard {
@@ -24,7 +41,7 @@
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  transition: all 500ms ease-in-out;
+  transition: all 200ms ease-in-out;
   width: 100%;
 }
 
@@ -34,12 +51,12 @@
   justify-content: space-between;
   gap: 15px;
   border-radius: 8px;
-  border: 1px solid #e9ecef;
+  border: 1px solid #acacac;
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.214);
   cursor: pointer;
   transition: all 500ms ease-in-out;
-  width: 30%;
+  width: 100%;
   margin: left auto;
   align-items: stretch;
 }
@@ -72,6 +89,7 @@
   padding: 30px 0px;
   background: #6c757d;
   transition: ease-in-out;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.774);
 }
 
 .IoIosArrowForward:hover {
@@ -228,5 +246,159 @@
 
   .orderCard__actions {
     justify-content: flex-end;
+  }
+}
+
+/*ProductsCard*/
+.productsContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  background: #f8f9fa;
+  max-height: 500px;
+  overflow-x: hidden;
+  width: 100%;
+  padding-bottom: 2px;
+  
+}
+
+.productCard {
+  display: grid;
+  grid-template-columns: auto 40px 1fr 2fr auto;
+  align-items: center;
+  padding: 0 35px;
+  gap: 20px;
+  border: 1px solid #acacac;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: 200ms ease-in-out;
+}
+
+.productCard:hover {
+  transform: scale(1.0009);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.statusIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.statusDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.statusDot.available {
+  background-color: #03a366;
+}
+
+.statusDot.notAvailable {
+  background-color: #2a2a2a;
+}
+
+.productImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.productImage img {
+  border-radius: 4px;
+}
+
+.productInfo {
+  display: grid;
+  gap: 4px;
+}
+
+.productTitle {
+  font-weight: 600;
+  color: #333;
+  font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px;
+}
+
+.productSerial {
+  font-size: 14px;
+  color: #6c757d;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.productStatus {
+  text-align: center;
+  min-width: 80px;
+}
+
+.statusText {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.statusText.available {
+  color: #28a745;
+}
+
+.statusText.notAvailable {
+  color: #2a2a2a;
+}
+
+.arrivalDate {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  text-align: right;
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 2px;
+  justify-self: end;
+}
+
+.deleteBtn:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .productsContainer {
+    max-height: 400px;
+    gap: 12px;
+    padding: 15px;
+  }
+
+  .productCard {
+    grid-template-columns: auto 40px 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px;
+    padding: 12px 15px;
+    min-height: 80px;
+  }
+
+  .productStatus,
+  .arrivalDate {
+    grid-column: span 3;
+    justify-self: start;
+    text-align: left;
+  }
+
+  .arrivalDate {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
   }
 }

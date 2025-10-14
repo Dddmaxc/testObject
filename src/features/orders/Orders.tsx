@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { addOrderTC, fetchOrdersTC, Order, selectOrders } from "./ordersSlice";
 import { useAppSelector } from "@/components/hooks/useAppSelector";
 import { Col, Row } from "react-bootstrap";
@@ -7,10 +7,12 @@ import { useAppDispatch } from "@/components/hooks/useAppDispatch";
 import { fetchProductsTC } from "../products/productsSlice";
 import { CustomButton } from "@/components/CustomButton/CustomButton";
 import styles from "./orders.module.css";
+import { AddOrderModal } from "./addOrderModal/AddOrderModal";
 
 export const Orders = () => {
   const orders = useAppSelector(selectOrders);
   const dispatch = useAppDispatch();
+  const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
     dispatch(fetchOrdersTC());
@@ -46,9 +48,14 @@ export const Orders = () => {
             alignItems: "center",
           }}
         >
-          <CustomButton size="medium" onClick={addOrder} variant="primary">
+          <CustomButton
+            size="medium"
+            onClick={() => setModalShow(true)}
+            variant="primary"
+          >
             +
           </CustomButton>
+          <AddOrderModal show={modalShow} onHide={() => setModalShow(false)} />
         </div>
         <h1 className="mb-4">Приходы / {orders.length}</h1>
         <div className="mb-4 d-flex">

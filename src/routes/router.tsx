@@ -1,11 +1,12 @@
 import { Navigate } from "react-router-dom";
 import { Groups } from "@/components/navigateMenu/navigateMenuPages/Groups";
-import { Products } from "@/features/products/Products";
 import { Users } from "@/components/navigateMenu/navigateMenuPages/Users";
 import { Settings } from "@/components/navigateMenu/navigateMenuPages/Settings";
 import { Error404 } from "@/components/errors/Error404";
 import { App } from "@/App";
 import { Orders } from "@/features/orders/Orders";
+import { Products } from "@/features/products/Products";
+
 
 export const PATH = {
   PRIHOD: "/prihod",

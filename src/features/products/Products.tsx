@@ -6,9 +6,6 @@ import {
   selectProducts,
   selectStatus,
   selectError,
-  addProductTC,
-  Product,
-  deleteProductTC,
 } from "./productsSlice";
 import { Row, Col, Form } from "react-bootstrap";
 import styles from "./Products.module.css";
@@ -37,26 +34,6 @@ export const Products = () => {
 
   if (status === "loading") return <div>Loading products...</div>;
   if (status === "failed") return <div>Error: {error}</div>;
-
-  const newProduct: Omit<Product, "id"> = {
-    serialNumber: 123459,
-    isNew: 1 as 1,
-    photo:
-      "https://baproar.vtexassets.com/arquivos/ids/2069005/image-928323e59f2040b0b9d00210d52a6b6b.jpg?v=638932927540630000",
-    title: "Barcelona",
-    type: "Table",
-    specification: "Specs here",
-    guarantee: { start: "2025-01-01", end: "2026-01-01" },
-    price: [{ value: 100, symbol: "USD", isDefault: 1 as 1 }],
-    order: "4",
-    date: new Date().toISOString(),
-    name: "Кто то хз кто но кто то ",
-    status: true,
-  };
-
-  const addProduct = () => {
-    dispatch(addProductTC(newProduct));
-  };
 
   return (
     <div className="container-fluid py-4" style={{ background: "#f8f9fa" }}>
@@ -90,10 +67,6 @@ export const Products = () => {
       </div>
 
       <ProductCards filteredProducts={filteredProducts} />
-
-      <button onClick={addProduct} className="btn btn-primary mt-3">
-        add
-      </button>
     </div>
   );
 };
