@@ -20,7 +20,10 @@ export const MyVerticallyCenteredModal = ({
 }: Props) => {
   const dispatch = useAppDispatch();
 
+  console.log(orderModelId);
+  
   const deleteOrder = () => {
+    debugger
     if (orderModelId) {
       dispatch(deleteOrderTC(orderModelId));
       onHide();

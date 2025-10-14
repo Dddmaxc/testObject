@@ -1,30 +1,32 @@
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/components/hooks/useAppDispatch";
-import styles from "../orders.module.css";
 import {
   selectProductsByOrderId,
   useAppSelector,
 } from "@/components/hooks/useAppSelector";
 import { selectOrders } from "../ordersSlice";
-import { CgMenuRound } from "react-icons/cg";
 import {
   addProductTC,
   deleteProductTC,
   fetchProductsTC,
   Product,
 } from "@/features/products/productsSlice";
-import { useEffect, useState } from "react";
-import { MyVerticallyCenteredModal } from "../deleteModal/DeleteModal";
+
+import styles from "../orders.module.css";
+import { CgMenuRound } from "react-icons/cg";
 import { IoIosArrowForward } from "react-icons/io";
-import { CustomButton } from "@/components/CustomButton/CustomButton";
 import { MdOutlineCancel } from "react-icons/md";
+import { MyVerticallyCenteredModal } from "../deleteModal/DeleteModal";
+import { CustomButton } from "@/components/CustomButton/CustomButton";
 
 export const OrdersCards = () => {
-  const orders = useAppSelector(selectOrders);
-  const productsByOrderId = useAppSelector(selectProductsByOrderId);
   const dispatch = useAppDispatch();
 
-  const [modalDelete, setModalDelete] = useState<boolean>(false);
-  const [openProduct, setOpenProduct] = useState<boolean>(false);
+  const orders = useAppSelector(selectOrders);
+  const productsByOrderId = useAppSelector(selectProductsByOrderId);
+
+  const [modalDelete, setModalDelete] = useState(false);
+  const [openProduct, setOpenProduct] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -36,23 +38,23 @@ export const OrdersCards = () => {
     setOpenProduct(true);
   };
 
-  const newProduct: Omit<Product, "id"> = {
-    serialNumber: 123459,
-    isNew: 1 as 1,
-    photo:
-      "https://baproar.vtexassets.com/arquivos/ids/2069005/image-928323e59f2040b0b9d00210d52a6b6b.jpg?v=638932927540630000",
-    title: "Barcelona",
-    type: "Table",
-    specification: "Specs here",
-    guarantee: { start: "2025-01-01", end: "2026-01-01" },
-    price: [{ value: 100, symbol: "USD", isDefault: 1 as 1 }],
-    order: "4",
-    date: new Date().toISOString(),
-    name: "Кто то хз кто но кто то ",
-    status: true,
-  };
-
   const addProduct = () => {
+    const newProduct: Omit<Product, "id"> = {
+      serialNumber: 123459,
+      isNew: 1,
+      photo:
+        "https://baproar.vtexassets.com/arquivos/ids/2069005/image-928323e59f2040b0b9d00210d52a6b6b.jpg?v=638932927540630000",
+      title: "Barcelona",
+      type: "Table",
+      specification: "Specs here",
+      guarantee: { start: "2025-01-01", end: "2026-01-01" },
+      price: [{ value: 100, symbol: "USD", isDefault: 1 }],
+      order: selectedOrderId ?? "",
+      date: new Date().toISOString(),
+      name: "Кто-то",
+      status: true,
+    };
+
     dispatch(addProductTC(newProduct));
   };
 
@@ -64,10 +66,21 @@ export const OrdersCards = () => {
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <div className={!openProduct ? styles.orderContainer : styles.orderContainerCollapse}>
+      {/* Заказы */}
+      <div
+        className={
+          !openProduct ? styles.orderContainer : styles.orderContainerCollapse
+        }
+      >
         {orders.map((order) => {
           const orderProducts = productsByOrderId[order.id] || [];
           const orderDate = new Date(order.date);
+
+          // Считаем сумму по продуктам (isDefault: 1)
+          const totalPrice = orderProducts.reduce((sum, product) => {
+            const defaultPrice = product.price.find((p) => p.isDefault === 1);
+            return sum + (defaultPrice?.value || 0);
+          }, 0);
 
           return (
             <div
@@ -76,6 +89,7 @@ export const OrdersCards = () => {
               onClick={() => setSelectedOrderId(order.id)}
             >
               <div className={styles.orderCard__title}>{order.title}</div>
+
               <div className={styles.orderCard__products}>
                 <CgMenuRound
                   size={60}
@@ -83,7 +97,7 @@ export const OrdersCards = () => {
                   onClick={() => toggleOpenProduct(order.id)}
                 />
                 <div className={styles.orderCard__count}>
-                  <span style={{ fontWeight: "bolder", color: "#505050" }}>
+                  <span style={{ fontWeight: "bold", color: "#505050" }}>
                     {orderProducts.length}
                   </span>
                   <div className={styles.orderCard__label}>Продукта</div>
@@ -116,8 +130,9 @@ export const OrdersCards = () => {
               </div>
 
               <div className={styles.orderCard__price}>
-                <div style={{ fontSize: "12px", color: "#6c757d" }}>100$</div>
-                <div>2000UAH</div>
+                <div style={{ fontSize: "12px", color: "#6c757d" }}>
+                  {totalPrice} $
+                </div>
               </div>
 
               {order.id === selectedOrderId ? (
@@ -141,28 +156,33 @@ export const OrdersCards = () => {
                   className={styles.orderCard__deleteBtn}
                   onClick={(e) => {
                     e.stopPropagation();
+                    setSelectedOrderId(order.id);
                     setModalDelete(true);
                   }}
                 >
                   🗑️
                 </button>
-                <MyVerticallyCenteredModal
-                  show={modalDelete}
-                  onHide={() => setModalDelete(false)}
-                  orderModelId={order.id}
-                  orderTitle={order.title}
-                />
               </div>
             </div>
           );
         })}
       </div>
 
-      {/*Products*/}
+      {/* Модалка удаления */}
+      {selectedOrder && (
+        <MyVerticallyCenteredModal
+          show={modalDelete}
+          onHide={() => setModalDelete(false)}
+          orderModelId={selectedOrder.id}
+          orderTitle={selectedOrder.title}
+        />
+      )}
+
+      {/* Продукты по заказу */}
       {openProduct && selectedOrder && (
         <div
           style={{
-            background: "#ffffffff",
+            background: "#fff",
             width: "78%",
             marginTop: "77px",
             marginRight: "2.5%",
@@ -174,18 +194,18 @@ export const OrdersCards = () => {
           <div
             style={{
               position: "absolute",
-              right: "0",
-              padding: "0",
+              right: 0,
+              padding: 0,
               height: "30px",
-              bottom: "8",
             }}
           >
             <MdOutlineCancel
-              style={{ marginBottom: "25px", cursor: "pointer" }}
+              style={{ marginBottom: "25px", cursor: "pointer"}}
               color="#acacac"
               onClick={() => setOpenProduct(false)}
             />
           </div>
+
           <div style={{ padding: "25px" }}>
             <h3>{selectedOrder.title}</h3>
             <div>
@@ -206,63 +226,52 @@ export const OrdersCards = () => {
           </div>
 
           <div className={styles.productsContainer}>
-            {selectedOrder.products.map((product) => {
-              return (
-                <div key={product.id} className={styles.productCard}>
-                  <div className={styles.statusIndicator}>
-                    {product.status ? (
-                      <div
-                        className={`${styles.statusDot} ${styles.available}`}
-                      ></div>
-                    ) : (
-                      <div
-                        className={`${styles.statusDot} ${styles.notAvailable}`}
-                      ></div>
-                    )}
-                  </div>
+            {productsByOrderId[selectedOrder.id]?.map((product) => (
+              <div key={product.id} className={styles.productCard}>
+                <div className={styles.statusIndicator}>
+                  <div
+                    className={`${styles.statusDot} ${
+                      product.status ? styles.available : styles.notAvailable
+                    }`}
+                  ></div>
+                </div>
 
-                  <div className={styles.productImage}>
-                    <img
-                      src={product.photo}
-                      alt={product.title}
-                      width={60}
-                      height={60}
-                    />
-                  </div>
+                <div className={styles.productImage}>
+                  <img
+                    src={product.photo}
+                    alt={product.title}
+                    width={60}
+                    height={60}
+                  />
+                </div>
 
-                  <div className={styles.productInfo}>
-                    <div className={styles.productTitle}>{product.title}</div>
-                    <div className={styles.productSerial}>
-                      {product.serialNumber}
-                    </div>
-                  </div>
-
-                  <div className={styles.productStatus}>
-                    {product.status ? (
-                      <span
-                        className={`${styles.statusText} ${styles.available}`}
-                      >
-                        свободен
-                      </span>
-                    ) : (
-                      <span
-                        className={`${styles.statusText} ${styles.notAvailable}`}
-                      >
-                        В ремонте
-                      </span>
-                    )}
-                  </div>
-                  <div className={styles.arrivalDate}>
-                    <button
-                      className={styles.deleteBtn}
-                      onClick={() => deleteProduct(product.id)}
-                    >
-                      🗑️
-                    </button>
+                <div className={styles.productInfo}>
+                  <div className={styles.productTitle}>{product.title}</div>
+                  <div className={styles.productSerial}>
+                    {product.serialNumber}
                   </div>
                 </div>
-              );
-            })}
+
+                <div className={styles.productStatus}>
+                  <span
+                    className={`${styles.statusText} ${
+                      product.status ? styles.available : styles.notAvailable
+                    }`}
+                  >
+                    {product.status ? "Свободен" : "В ремонте"}
+                  </span>
+                </div>
+
+                <div className={styles.arrivalDate}>
+                  <button
+                    className={styles.deleteBtn}
+                    onClick={() => deleteProduct(product.id)}
+                  >
+                    🗑️
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

@@ -1,3 +1,4 @@
+
 import { createAppSlice } from "@/components/utils/createAppSlice";
 import { db } from "@/firebase";
 import {
@@ -6,7 +7,6 @@ import {
   addDoc,
   deleteDoc,
   doc,
-
 } from "firebase/firestore";
 import { convertFirebaseData, Product } from "../products/productsSlice";
 import { fetchProductsByOrderId } from "@/services/products";
@@ -32,7 +32,6 @@ const initialState: OrderState = {
   status: "idle",
   error: null,
 };
-
 
 export const ordersSlice = createAppSlice({
   name: "orders",
@@ -98,12 +97,17 @@ export const ordersSlice = createAppSlice({
         }
       },
       {
+        pending: (state) => {
+          state.status = "loading";
+        },
         fulfilled: (state, action) => {
           state.orders = state.orders.filter(
             (order) => order.id !== action.payload
           );
+          state.status = "succeeded";
         },
         rejected: (state, action) => {
+          state.status = "failed";
           state.error = action.payload as string;
         },
       }

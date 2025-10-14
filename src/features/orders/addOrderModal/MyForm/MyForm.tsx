@@ -1,22 +1,23 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Form, Button } from "react-bootstrap";
 
-export type OrderFormValues = {
+// Определяем тип для данных формы
+export type OrderFormData = {
   title: string;
   description: string;
 };
 
-type Props = {
-  onSubmit: SubmitHandler<OrderFormValues>;
+type PropsType = {
+  onSubmit: SubmitHandler<OrderFormData>;
 };
 
-export const MyForm = ({ onSubmit }: Props) => {
+export const MyForm = ({ onSubmit }: PropsType) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<OrderFormValues>({
+  } = useForm<OrderFormData>({
     defaultValues: { title: "", description: "" },
   });
 
@@ -54,4 +55,4 @@ export const MyForm = ({ onSubmit }: Props) => {
       </Button>
     </Form>
   );
-}
+};

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { addOrderTC, fetchOrdersTC, Order, selectOrders } from "./ordersSlice";
+import { fetchOrdersTC, selectOrders } from "./ordersSlice";
 import { useAppSelector } from "@/components/hooks/useAppSelector";
 import { Col, Row } from "react-bootstrap";
 import { OrdersCards } from "./ordersCards/OrdersCards";
 import { useAppDispatch } from "@/components/hooks/useAppDispatch";
-import { fetchProductsTC } from "../products/productsSlice";
 import { CustomButton } from "@/components/CustomButton/CustomButton";
 import styles from "./orders.module.css";
 import { AddOrderModal } from "./addOrderModal/AddOrderModal";
@@ -18,18 +17,6 @@ export const Orders = () => {
     dispatch(fetchOrdersTC());
   }, []);
 
-  const ordersForAdd: Omit<Order, "id"> = {
-    title: "Длинное предлинное длиннючее название группы",
-    date: new Date().toISOString(),
-    description: "desc",
-    products: [],
-    // get products () { return products }
-  };
-
-  const addOrder = () => {
-    dispatch(fetchProductsTC());
-    dispatch(addOrderTC(ordersForAdd));
-  };
 
   return (
     <div
