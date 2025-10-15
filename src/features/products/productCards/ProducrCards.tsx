@@ -1,12 +1,16 @@
 import { useAppDispatch } from "@/components/hooks/useAppDispatch";
 import styles from "../Products.module.css";
-import { deleteProductTC, Product } from "../productsSlice";
+import { deleteProductTC, Product, selectProducts } from "../productsSlice";
+import { useAppSelector } from "@/components/hooks/useAppSelector";
+import { selectOrders } from "@/features/orders/ordersSlice";
 
 type PropsCards = {
   filteredProducts: Product[];
 };
 
 export const ProductCards = ({ filteredProducts }: PropsCards) => {
+  const orderArray = useAppSelector(selectOrders);
+
   const dispatch = useAppDispatch();
 
   const deleteProduct = (productId: string) => {
@@ -17,10 +21,14 @@ export const ProductCards = ({ filteredProducts }: PropsCards) => {
     <>
       <div className={styles.productsContainer}>
         {filteredProducts.map((product) => {
+          const filteredOrderTitle = orderArray.find(
+            (id) => id.id === product.order
+          );
+          console.log("product", product.status);
           return (
             <div key={product.id} className={styles.productCard}>
               <div className={styles.statusIndicator}>
-                {product.status ? (
+                {product.status === 1 ? (
                   <div
                     className={`${styles.statusDot} ${styles.available}`}
                   ></div>
@@ -48,7 +56,7 @@ export const ProductCards = ({ filteredProducts }: PropsCards) => {
               </div>
 
               <div className={styles.productStatus}>
-                {product.status ? (
+                {product.status === 1 ? (
                   <span className={`${styles.statusText} ${styles.available}`}>
                     свободен
                   </span>
@@ -73,8 +81,19 @@ export const ProductCards = ({ filteredProducts }: PropsCards) => {
               </div>
 
               <div className={styles.price}>
-                <div className={styles.priceUsd}>2 500 $</div>
-                <div className={styles.priceUah}>250 000. 50 UAH</div>
+                <div className={styles.priceUsd}>
+                  {product.price
+                    .find((p) => p.symbol === "USD")
+                    ?.value.toLocaleString()}
+                  $
+                </div>
+
+                <div className={styles.priceUah}>
+                  {product.price
+                    .find((p) => p.symbol === "UAH")
+                    ?.value.toLocaleString()}
+                  UAH
+                </div>
               </div>
 
               <div className={styles.groupName}>
@@ -88,7 +107,7 @@ export const ProductCards = ({ filteredProducts }: PropsCards) => {
               )}
 
               <div className={styles.groupName}>
-                Длинное предлинное длиннючее название прихода
+                {filteredOrderTitle?.title}
               </div>
 
               <div className={styles.arrivalDate}>

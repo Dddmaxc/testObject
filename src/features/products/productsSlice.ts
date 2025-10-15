@@ -22,7 +22,7 @@ export type Price = {
 };
 
 export type Product = {
-  id: string; 
+  id: string;
   serialNumber: number;
   isNew: 1 | 0;
   photo: string;
@@ -34,8 +34,8 @@ export type Product = {
   order: string;
   date: string;
   quantity?: 1;
-  name?: string
-  status?: boolean
+  name?: string;
+  status?: 1 | 0;
 };
 
 export type ProductsState = {
@@ -139,6 +139,8 @@ export const productsSlice = createAppSlice({
 
     addProductTC: create.asyncThunk<Product, Omit<Product, "id">>(
       async (product, thunkAPI) => {
+        console.log("Adding product to Firebase:", product);
+        debugger;
         try {
           // Преобразуем guarantee даты в Timestamp для Firebase
           const firebaseProduct = {
@@ -147,14 +149,15 @@ export const productsSlice = createAppSlice({
               start: product.guarantee.start,
               end: product.guarantee.end,
             },
-            date: serverTimestamp(), // используем serverTimestamp для даты
+            date: serverTimestamp(),
           };
+
+          console.log("Firebase product data:", firebaseProduct);
 
           const docRef = await addDoc(
             collection(db, "products"),
             firebaseProduct
           );
-
           // Возвращаем продукт с локальной датой
           return {
             id: docRef.id,

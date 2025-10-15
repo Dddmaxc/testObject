@@ -1,24 +1,23 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, Button } from "react-bootstrap";
-
-// Определяем тип для данных формы
-export type OrderFormData = {
-  title: string;
-  description: string;
-};
+import { formOrderSchema, OrderFormData } from "./validationSchema";
 
 type PropsType = {
-  onSubmit: SubmitHandler<OrderFormData>;
+  onSubmit: (data: OrderFormData) => void;
 };
 
-export const MyForm = ({ onSubmit }: PropsType) => {
+export const FormForAddOrder = ({ onSubmit }: PropsType) => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<OrderFormData>({
-    defaultValues: { title: "", description: "" },
+    resolver: zodResolver(formOrderSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+    },
   });
 
   return (
@@ -29,7 +28,7 @@ export const MyForm = ({ onSubmit }: PropsType) => {
           type="text"
           placeholder="Введите заголовок"
           isInvalid={!!errors.title}
-          {...register("title", { required: "Введите заголовок" })}
+          {...register("title")}
         />
         <Form.Control.Feedback type="invalid">
           {errors.title?.message}
@@ -43,7 +42,7 @@ export const MyForm = ({ onSubmit }: PropsType) => {
           rows={3}
           placeholder="Введите описание"
           isInvalid={!!errors.description}
-          {...register("description", { required: "Введите описание" })}
+          {...register("description")}
         />
         <Form.Control.Feedback type="invalid">
           {errors.description?.message}

@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import { MyForm } from "./MyForm/MyForm";
+import { FormForAddOrder } from "./formForAddOrder/FormForAddOrder";
 import { useAppDispatch } from "@/components/hooks/useAppDispatch";
 import { SubmitHandler } from "react-hook-form";
 import { addOrderTC, Order } from "../ordersSlice";
@@ -37,7 +37,7 @@ export const AddOrderModal: React.FC<Props> = ({ show, onHide }) => {
         <Modal.Title>Добавить заказ</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <MyForm onSubmit={handleFormSubmit} />
+        <FormForAddOrder onSubmit={handleFormSubmit} />
       </Modal.Body>
     </Modal>
   );

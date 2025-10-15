@@ -18,11 +18,21 @@ export const Products = () => {
   const error = useAppSelector(selectError);
   const [filterProducts, setFilterProducts] = useState<string>("");
 
-  console.log("products", products);
-
   useEffect(() => {
     dispatch(fetchProductsTC());
   }, []);
+
+  // Функция для получения уникальных типов с количеством
+  const getProductTypesWithCount = () => {
+    const typeCounts: Record<string, number> = {};
+
+    products.forEach((product) => {
+      const type = product.type || "Без типа";
+      typeCounts[type] = (typeCounts[type] || 0) + 1;
+    });
+
+    return typeCounts;
+  };
 
   const filteredProducts = filterProducts
     ? products.filter((p) => p.type === filterProducts)
@@ -32,23 +42,42 @@ export const Products = () => {
     setFilterProducts(e.currentTarget.value);
   };
 
+  const productTypesWithCount = getProductTypesWithCount();
+
   if (status === "loading") return <div>Loading products...</div>;
   if (status === "failed") return <div>Error: {error}</div>;
 
   return (
     <div className="container-fluid py-4" style={{ background: "#f8f9fa" }}>
       <div className="d-flex" style={{ alignItems: "flex-end", gap: "10px" }}>
-        <h1 className="mb-4">Продукты / {filteredProducts.length}</h1>
+        <h1
+          className="mb-4"
+          style={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            maxWidth: "200px"
+          }}
+        >
+          {filterProducts
+            ? `${filterProducts} / ${filteredProducts.length}`
+            : `Продукты / ${products.length}`}
+        </h1>
 
         <div className="mb-4 d-flex">
           <Row className="g-3 flex-nowrap">
             <Col xs={6} md={12}>
               <Form.Group className="d-flex align-items-center gap-2">
                 <Form.Label className={styles.formLabel}>Тип:</Form.Label>
-                <Form.Select onChange={filterFunction}>
-                  <option value="">All</option>
-                  <option value="Monitors">Monitors</option>
-                  <option value="Some Think">Some Think</option>
+                <Form.Select onChange={filterFunction} value={filterProducts}>
+                  <option value="">Все продукты ({products.length})</option>
+                  {Object.entries(productTypesWithCount).map(
+                    ([type, count]) => (
+                      <option key={type} value={type}>
+                        {type} ({count})
+                      </option>
+                    )
+                  )}
                 </Form.Select>
               </Form.Group>
             </Col>
@@ -70,3 +99,10 @@ export const Products = () => {
     </div>
   );
 };
+/* 
+ style={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+*/
