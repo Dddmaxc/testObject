@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/components/hooks/useAppDispatch";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { deleteOrderTC } from "../ordersSlice";
+import { deleteOrderTC } from "@/slices/ordersSlice";
 import styles from "./deleteModal.module.css";
 import { MdDelete } from "react-icons/md";
 
@@ -21,9 +21,9 @@ export const MyVerticallyCenteredModal = ({
   const dispatch = useAppDispatch();
 
   console.log(orderModelId);
-  
+
   const deleteOrder = () => {
-    debugger
+    debugger;
     if (orderModelId) {
       dispatch(deleteOrderTC(orderModelId));
       onHide();
@@ -32,7 +32,7 @@ export const MyVerticallyCenteredModal = ({
 
   return (
     <>
-    {show && <div className={styles.backdrop} onClick={onHide} />}
+      {show && <div className={styles.backdrop} onClick={onHide} />}
       <Modal
         backdrop={false}
         show={show}

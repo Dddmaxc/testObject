@@ -1,10 +1,9 @@
 import { memo, useCallback } from "react";
 import { useAppDispatch } from "@/components/hooks/useAppDispatch";
 import styles from "../Products.module.css";
-import { deleteProductTC, Product } from "../productsSlice";
+import { deleteProductTC, Product } from "../../../slices/productsSlice";
 import { useAppSelector } from "@/components/hooks/useAppSelector";
-import { selectOrders } from "@/features/orders/ordersSlice";
-
+import { selectOrders } from "@/slices/ordersSlice";
 
 type PropsCards = {
   filteredProducts: Product[];

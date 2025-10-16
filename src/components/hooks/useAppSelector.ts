@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../../app/store";
 import { createSelector } from "@reduxjs/toolkit";
-import { Product } from "@/features/products/productsSlice";
+import { Product } from "@/slices/productsSlice";
 
 export const useAppSelector = useSelector.withTypes<RootState>();
 
@@ -15,7 +15,7 @@ export const selectProductsByOrderId = createSelector(
   [selectProducts],
   (products): ProductsByOrderId => {
     return products.reduce<ProductsByOrderId>((acc, product) => {
-      const orderId = product.order.toString(); 
+      const orderId = product.order.toString();
       if (!acc[orderId]) {
         acc[orderId] = [];
       }

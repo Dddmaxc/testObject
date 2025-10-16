@@ -1,4 +1,4 @@
-import { createAppSlice } from "@/components/utils/createAppSlice";
+import { createAppSlice } from "@/utils/createAppSlice";
 import { db } from "@/firebase";
 import {
   collection,
@@ -140,7 +140,7 @@ export const productsSlice = createAppSlice({
     addProductTC: create.asyncThunk<Product, Omit<Product, "id">>(
       async (product, thunkAPI) => {
         console.log("Adding product to Firebase:", product);
-        debugger
+        debugger;
         try {
           // Преобразуем guarantee даты в Timestamp для Firebase
           const firebaseProduct = {

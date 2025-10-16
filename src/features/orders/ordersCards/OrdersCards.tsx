@@ -4,17 +4,18 @@ import {
   selectProductsByOrderId,
   useAppSelector,
 } from "@/components/hooks/useAppSelector";
-import { selectOrders } from "../ordersSlice";
-import { fetchProductsTC } from "@/features/products/productsSlice";
+
+import { fetchProductsTC } from "@/slices/productsSlice";
 
 import styles from "../orders.module.css";
 import { CgMenuRound } from "react-icons/cg";
 import { IoIosArrowForward } from "react-icons/io";
 import { MdOutlineCancel } from "react-icons/md";
 import { MyVerticallyCenteredModal } from "../deleteModal/DeleteModal";
-import { CustomButton } from "@/components/CustomButton/CustomButton";
+import { CustomButton } from "@/components/customButton/CustomButton";
 import { ProductsByOrderId } from "./productsByOrderId/ProductsByOrderId";
 import { AddProductModal } from "../addOrderModal/addProductModal/addProductModal";
+import { selectOrders } from "@/slices/ordersSlice";
 
 export const OrdersCards = memo(() => {
   const dispatch = useAppDispatch();

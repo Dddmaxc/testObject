@@ -1,11 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
-import { fetchOrdersTC, selectOrders } from "./ordersSlice";
 import { useAppSelector } from "@/components/hooks/useAppSelector";
 import { Col, Row } from "react-bootstrap";
 import { OrdersCards } from "./ordersCards/OrdersCards";
 import { useAppDispatch } from "@/components/hooks/useAppDispatch";
-import { CustomButton } from "@/components/CustomButton/CustomButton";
+import { CustomButton } from "@/components/customButton/CustomButton";
 import { AddOrderModal } from "./addOrderModal/AddOrderModal";
+import { fetchOrdersTC, selectOrders } from "@/slices/ordersSlice";
 
 export const Orders = () => {
   const orders = useAppSelector(selectOrders);

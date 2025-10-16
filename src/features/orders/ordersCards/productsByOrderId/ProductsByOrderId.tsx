@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useAppDispatch } from "@/components/hooks/useAppDispatch";
 import styles from "../../orders.module.css";
 import { Order } from "../../ordersSlice";
-import { deleteProductTC, Product } from "@/features/products/productsSlice";
+import { deleteProductTC, Product } from "@/slices/productsSlice";
 import React from "react";
 
 type PropsType = {
@@ -59,9 +59,7 @@ export const ProductsByOrderId = React.memo(
                   свободен
                 </span>
               ) : (
-                <span
-                  className={`${styles.statusText} ${styles.notAvailable}`}
-                >
+                <span className={`${styles.statusText} ${styles.notAvailable}`}>
                   В ремонте
                 </span>
               )}

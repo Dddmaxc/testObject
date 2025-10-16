@@ -2,11 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import { useAppDispatch } from "@/components/hooks/useAppDispatch";
 import { SubmitHandler } from "react-hook-form";
-import {
-  addProductTC,
-  Product,
-  Price,
-} from "@/features/products/productsSlice";
+import { addProductTC, Product, Price } from "@/slices/productsSlice";
 import { FormForAddProduct } from "./formForAddProduct/formForAddProduct";
 import { ProductFormData } from "./formForAddProduct/productFormSchema";
 

@@ -1,10 +1,11 @@
 import { db } from "@/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { Product } from "@/features/products/productsSlice";
-
+import { Product } from "@/slices/productsSlice";
 
 //выбирает все продукты, привязанные к одному заказу
-export const fetchProductsByOrderId = async (orderId: string): Promise<Product[]> => {
+export const fetchProductsByOrderId = async (
+  orderId: string
+): Promise<Product[]> => {
   try {
     const productsRef = collection(db, "products");
     const q = query(productsRef, where("order", "==", orderId));

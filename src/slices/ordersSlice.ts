@@ -1,5 +1,4 @@
-
-import { createAppSlice } from "@/components/utils/createAppSlice";
+import { createAppSlice } from "@/utils/createAppSlice";
 import { db } from "@/firebase";
 import {
   collection,
@@ -8,8 +7,8 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { convertFirebaseData, Product } from "../products/productsSlice";
 import { fetchProductsByOrderId } from "@/services/products";
+import { convertFirebaseData, Product } from "./productsSlice";
 
 export type Status = "idle" | "loading" | "succeeded" | "failed";
 

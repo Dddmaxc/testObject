@@ -6,7 +6,7 @@ import {
   selectProducts,
   selectStatus,
   selectError,
-} from "./productsSlice";
+} from "../../slices/productsSlice";
 import { Row, Col, Form } from "react-bootstrap";
 import styles from "./Products.module.css";
 import { ProductCards } from "./productCards/ProducrCards";

@@ -2,7 +2,7 @@ import Modal from "react-bootstrap/Modal";
 import { FormForAddOrder } from "./formForAddOrder/FormForAddOrder";
 import { useAppDispatch } from "@/components/hooks/useAppDispatch";
 import { SubmitHandler } from "react-hook-form";
-import { addOrderTC, Order } from "../ordersSlice";
+import { addOrderTC, Order } from "@/slices/ordersSlice";
 import { useCallback } from "react";
 
 type Props = {
@@ -19,17 +19,20 @@ type OrderFormData = {
 export const AddOrderModal = ({ show, onHide }: Props) => {
   const dispatch = useAppDispatch();
 
-  const handleFormSubmit: SubmitHandler<OrderFormData> = useCallback((data) => {
-    const newOrder: Omit<Order, "id"> = {
-      title: data.title,
-      description: data.description,
-      date: new Date().toISOString(),
-      products: [],
-    };
-    console.log(data);
-    dispatch(addOrderTC(newOrder));
-    onHide();
-  }, [[dispatch, onHide]]);
+  const handleFormSubmit: SubmitHandler<OrderFormData> = useCallback(
+    (data) => {
+      const newOrder: Omit<Order, "id"> = {
+        title: data.title,
+        description: data.description,
+        date: new Date().toISOString(),
+        products: [],
+      };
+      console.log(data);
+      dispatch(addOrderTC(newOrder));
+      onHide();
+    },
+    [[dispatch, onHide]]
+  );
 
   return (
     <Modal show={show} onHide={onHide} size="lg" centered>
