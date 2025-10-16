@@ -1,6 +1,6 @@
 import { useAppDispatch } from "@/components/hooks/useAppDispatch";
 import { useAppSelector } from "@/components/hooks/useAppSelector";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import {
   fetchProductsTC,
   selectProducts,
@@ -20,29 +20,29 @@ export const Products = () => {
 
   useEffect(() => {
     dispatch(fetchProductsTC());
-  }, []);
+  }, [dispatch]);
 
-  // Функция для получения уникальных типов с количеством
-  const getProductTypesWithCount = () => {
+  const productTypesWithCount = useMemo(() => {
     const typeCounts: Record<string, number> = {};
-
     products.forEach((product) => {
       const type = product.type || "Без типа";
       typeCounts[type] = (typeCounts[type] || 0) + 1;
     });
-
     return typeCounts;
-  };
+  }, [products]);
 
-  const filteredProducts = filterProducts
-    ? products.filter((p) => p.type === filterProducts)
-    : products;
+  const filteredProducts = useMemo(() => {
+    return filterProducts
+      ? products.filter((p) => p.type === filterProducts)
+      : products;
+  }, [products, filterProducts]);
 
-  const filterFunction = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterProducts(e.currentTarget.value);
-  };
-
-  const productTypesWithCount = getProductTypesWithCount();
+  const filterFunction = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setFilterProducts(e.currentTarget.value);
+    },
+    []
+  );
 
   if (status === "loading") return <div>Loading products...</div>;
   if (status === "failed") return <div>Error: {error}</div>;
@@ -56,7 +56,7 @@ export const Products = () => {
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
-            maxWidth: "200px"
+            maxWidth: "200px",
           }}
         >
           {filterProducts
@@ -99,10 +99,3 @@ export const Products = () => {
     </div>
   );
 };
-/* 
- style={{
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-*/

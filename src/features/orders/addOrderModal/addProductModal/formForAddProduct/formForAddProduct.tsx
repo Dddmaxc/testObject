@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import { ProductFormData, productFormSchema } from "../../productFormSchema";
+import { ProductFormData, productFormSchema } from "./productFormSchema";
 
 type PropsType = {
   onSubmit: (data: ProductFormData) => void;
@@ -76,7 +76,7 @@ export const FormForAddProduct = ({ onSubmit }: PropsType) => {
         <Form.Label>Состояние *</Form.Label>
         <Form.Select {...register("isNew", { valueAsNumber: true })}>
           <option value={1}>Новый</option>
-          <option value={0}>Б/у</option>    
+          <option value={0}>Б/у</option>
         </Form.Select>
       </Form.Group>
 

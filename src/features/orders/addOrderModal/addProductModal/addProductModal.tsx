@@ -8,7 +8,7 @@ import {
   Price,
 } from "@/features/products/productsSlice";
 import { FormForAddProduct } from "./formForAddProduct/formForAddProduct";
-import { ProductFormData } from "../productFormSchema";
+import { ProductFormData } from "./formForAddProduct/productFormSchema";
 
 type Props = {
   show: boolean;
@@ -49,7 +49,7 @@ export const AddProductModal: React.FC<Props> = ({
 
     const newProduct: Omit<Product, "id"> = {
       serialNumber: data.serialNumber || 0,
-      isNew: data.isNew || 1,
+      isNew: data.isNew,
       photo: data.photo || "",
       title: data.title || "",
       type: data.type || "",
@@ -75,7 +75,7 @@ export const AddProductModal: React.FC<Props> = ({
       order: selectedOrderId,
       date: new Date().toISOString(),
       name: data.name || "",
-      status: data.status || 1,
+      status: data.status,
     };
 
     console.log("Product to be submitted:", newProduct);

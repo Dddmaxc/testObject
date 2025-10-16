@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, memo } from "react";
 import { useAppDispatch } from "@/components/hooks/useAppDispatch";
 import {
   selectProductsByOrderId,
   useAppSelector,
 } from "@/components/hooks/useAppSelector";
 import { selectOrders } from "../ordersSlice";
-import {
-  fetchProductsTC,
-} from "@/features/products/productsSlice";
+import { fetchProductsTC } from "@/features/products/productsSlice";
 
 import styles from "../orders.module.css";
 import { CgMenuRound } from "react-icons/cg";
@@ -18,34 +16,53 @@ import { CustomButton } from "@/components/CustomButton/CustomButton";
 import { ProductsByOrderId } from "./productsByOrderId/ProductsByOrderId";
 import { AddProductModal } from "../addOrderModal/addProductModal/addProductModal";
 
-
-export const OrdersCards = () => {
+export const OrdersCards = memo(() => {
   const dispatch = useAppDispatch();
-
   const orders = useAppSelector(selectOrders);
   const productsByOrderId = useAppSelector(selectProductsByOrderId);
 
   const [modalDelete, setModalDelete] = useState(false);
   const [openProduct, setOpenProduct] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
-  const [showAddProductModal, setShowAddProductModal] = useState(false); // Состояние для модального окна
+  const [showAddProductModal, setShowAddProductModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchProductsTC());
   }, [dispatch]);
 
-  const toggleOpenProduct = (orderId: string) => {
+  const handleOpenAddProductModal = useCallback(() => {
+    setShowAddProductModal(true);
+  }, []);
+
+  const handleCloseAddProductModal = useCallback(() => {
+    setShowAddProductModal(false);
+  }, []);
+
+  const handleSelectOrder = useCallback((orderId: string) => {
+    setSelectedOrderId(orderId);
+  }, []);
+
+  const handleToggleOpenProduct = useCallback((orderId: string) => {
     setSelectedOrderId(orderId);
     setOpenProduct(true);
-  };
+  }, []);
 
-  const openAddProductModal = () => {
-    setShowAddProductModal(true);
-  };
+  const handleDeleteOrder = useCallback(
+    (e: React.MouseEvent, orderId: string) => {
+      e.stopPropagation();
+      setSelectedOrderId(orderId);
+      setModalDelete(true);
+    },
+    []
+  );
 
-  const closeAddProductModal = () => {
-    setShowAddProductModal(false);
-  };
+  const handleCloseProductPanel = useCallback(() => {
+    setOpenProduct(false);
+  }, []);
+
+  const handleCloseDeleteModal = useCallback(() => {
+    setModalDelete(false);
+  }, []);
 
   const selectedOrder = orders.find((order) => order.id === selectedOrderId);
 
@@ -64,6 +81,7 @@ export const OrdersCards = () => {
             const defaultPrice = product.price.find((p) => p.isDefault === 1);
             return sum + (defaultPrice?.value || 0);
           }, 0);
+
           const totalPriceUAH = orderProducts.reduce((sum, product) => {
             const defaultPrice = product.price.find((p) => p.isDefault === 0);
             return sum + (defaultPrice?.value || 0);
@@ -73,7 +91,7 @@ export const OrdersCards = () => {
             <div
               key={order.id}
               className={openProduct ? styles.collapse : styles.orderCard}
-              onClick={() => setSelectedOrderId(order.id)}
+              onClick={() => handleSelectOrder(order.id)}
             >
               <div className={styles.orderCard__title}>{order.title}</div>
 
@@ -81,7 +99,7 @@ export const OrdersCards = () => {
                 <CgMenuRound
                   size={60}
                   color="#6c757d"
-                  onClick={() => toggleOpenProduct(order.id)}
+                  onClick={() => handleToggleOpenProduct(order.id)}
                 />
                 <div className={styles.orderCard__count}>
                   <span style={{ fontWeight: "bold", color: "#505050" }}>
@@ -107,7 +125,9 @@ export const OrdersCards = () => {
                   </span>
                   <span className={styles.orderCard__separator}>/</span>
                   <span className={styles.orderCard__monthName}>
-                    {orderDate.toLocaleDateString("ru-RU", { month: "short" })}
+                    {orderDate.toLocaleDateString("ru-RU", {
+                      month: "short",
+                    })}
                   </span>
                   <span className={styles.orderCard__separator}>/</span>
                   <span className={styles.orderCard__year}>
@@ -144,11 +164,7 @@ export const OrdersCards = () => {
               <div className={styles.orderCard__actions}>
                 <button
                   className={styles.orderCard__deleteBtn}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedOrderId(order.id);
-                    setModalDelete(true);
-                  }}
+                  onClick={(e) => handleDeleteOrder(e, order.id)}
                 >
                   🗑️
                 </button>
@@ -161,20 +177,18 @@ export const OrdersCards = () => {
       {selectedOrder && (
         <MyVerticallyCenteredModal
           show={modalDelete}
-          onHide={() => setModalDelete(false)}
+          onHide={handleCloseDeleteModal}
           orderModelId={selectedOrder.id}
           orderTitle={selectedOrder.title}
         />
       )}
 
-      {/* Модальное окно для добавления продукта */}
       <AddProductModal
         show={showAddProductModal}
-        onHide={closeAddProductModal}
-        selectedOrderId={selectedOrderId} 
+        onHide={handleCloseAddProductModal}
+        selectedOrderId={selectedOrderId}
       />
 
-      {/* Продукты по заказу */}
       {openProduct && selectedOrder && (
         <div
           style={{
@@ -198,7 +212,7 @@ export const OrdersCards = () => {
             <MdOutlineCancel
               style={{ marginBottom: "25px", cursor: "pointer" }}
               color="#acacac"
-              onClick={() => setOpenProduct(false)}
+              onClick={handleCloseProductPanel}
             />
           </div>
 
@@ -207,7 +221,7 @@ export const OrdersCards = () => {
             <div>
               <CustomButton
                 size="small"
-                onClick={openAddProductModal} 
+                onClick={handleOpenAddProductModal}
                 variant="primary"
               >
                 +
@@ -235,4 +249,4 @@ export const OrdersCards = () => {
       )}
     </div>
   );
-};
+});

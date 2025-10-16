@@ -140,7 +140,7 @@ export const productsSlice = createAppSlice({
     addProductTC: create.asyncThunk<Product, Omit<Product, "id">>(
       async (product, thunkAPI) => {
         console.log("Adding product to Firebase:", product);
-        debugger;
+        debugger
         try {
           // Преобразуем guarantee даты в Timestamp для Firebase
           const firebaseProduct = {
@@ -158,7 +158,7 @@ export const productsSlice = createAppSlice({
             collection(db, "products"),
             firebaseProduct
           );
-          // Возвращаем продукт с локальной датой
+
           return {
             id: docRef.id,
             ...product,
