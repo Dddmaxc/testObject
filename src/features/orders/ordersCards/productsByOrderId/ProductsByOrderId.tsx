@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { useAppDispatch } from "@/components/hooks/useAppDispatch";
 import styles from "../../orders.module.css";
-import { Order } from "../../ordersSlice";
 import { deleteProductTC, Product } from "@/slices/productsSlice";
 import React from "react";
+import { Order } from "@/slices/ordersSlice";
 
 type PropsType = {
   productsByOrderId: Record<string, Product[]>;
